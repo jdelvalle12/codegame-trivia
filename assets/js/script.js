@@ -16,16 +16,37 @@ var timerCount;
 var lettersInChosenWord = [];
 var blanksLetters = [];
 
-// Array of words the user will guess
-var words = [
-	"variable",
-	"array",
-	"modulus",
-	"object",
-	"function",
-	"string",
-	"boolean",
-];
+// Array of questions & answers the user will guess
+var questions = [
+		{
+		  question: "Who invented JavaScript?",
+		  answers: {
+			a: "Douglas Crockford",
+			b: "Sheryl Sandberg",
+			c: "Brendan Eich"
+		  },
+		  correctAnswer: "c"
+		},
+		{
+		  question: "Which one of these is a JavaScript package manager?",
+		  answers: {
+			a: "Node.js",
+			b: "TypeScript",
+			c: "npm"
+		  },
+		  correctAnswer: "c"
+		},
+		{
+		  question: "Which tool can you use to ensure code quality?",
+		  answers: {
+			a: "Angular",
+			b: "jQuery",
+			c: "RequireJS",
+			d: "ESLint"
+		  },
+		  correctAnswer: "d"
+		}
+	  ];
 
 // The init function is called when the page loads
 function init() {
@@ -45,7 +66,7 @@ function startGame() {
 
 // The winGame function is called when the win condition is met
 function winGame() {
-	wordBlank.textContent = "YOU WON!!!🏆 ";
+	trivia.textContent = "YOU WON!!!🏆 ";
 	winCounter++;
 	startButton.disabled = false;
 	setWins();
@@ -53,7 +74,7 @@ function winGame() {
 
 // The loseGame function is called when timer reaches 0
 function loseGame() {
-	wordBlank.textContent = "GAME OVER";
+	trivia.textContent = "GAME OVER";
 	loseCounter++;
 	startButton.disabled = false;
 	setLosses();
@@ -83,15 +104,15 @@ function startTimer() {
 }
 
 // Creates blanks on screen
-function renderBlanks() {
+function renderQuestions() {
 	// Randomly picks word from words array
 	chosenWord = words[Math.floor(Math.random() * words.length)];
 	lettersInChosenWord = chosenWord.split("");
-	numBlanks = lettersInChosenWord.length;
+	numAnswers = lettersInChosenWord.length;
 	blanksLetters = [];
 	// Uses loop to push blanks to blankLetters array
 	for (var i = 0; i < numBlanks; i++) {
-		blanksLetters.push("_");
+		questions.push("?");
 	}
 	// Converts blankLetters array into a string and renders it on the screen
 	wordBlank.textContent = blanksLetters.join(" ");
