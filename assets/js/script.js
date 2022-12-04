@@ -1,38 +1,38 @@
 var triviaQuestions = document.querySelector(".trivia-questions");
+var questionCount = document.querySelector("#question-count");
 var win = document.querySelector(".win");
 var lose = document.querySelector(".lose");
 var timer = document.querySelector(".timer-countdown");
 var startButton = document.querySelector(".start-button");
 
-var numQuestions = "";
-var numAnswers = 3;
+var randomQuestions = "";
+var answers = 4;
 var winCounter = 0;
 var loseCounter = 0;
 var wins = false;
 var timer;
-var timerCount;
+var timerCountdown;
 
-// Arrays used to create questions & answers on screen
-var numQuestions = [];
-var numAnswers = [];
 
 // Array of questions & answers the user will guess
-var questions = [
+var question = [
 		{
 		  question: "Who invented JavaScript?",
 		  answers: {
 			a: "Douglas Crockford",
 			b: "Sheryl Sandberg",
-			c: "Brendan Eich"
+			c: "Brendan Eich",
+			d: "",
 		  },
-		  correctAnswer: "c"
+		  correctAnswer: "c",
 		},
 		{
 		  question: "Which one of these is a JavaScript package manager?",
 		  answers: {
 			a: "Node.js",
 			b: "TypeScript",
-			c: "npm"
+			c: "npm",
+			d: "",
 		  },
 		  correctAnswer: "c"
 		},
@@ -42,16 +42,68 @@ var questions = [
 			a: "Angular",
 			b: "jQuery",
 			c: "RequireJS",
-			d: "ESLint"
+			d: "ESLint",
 		  },
 		  correctAnswer: "d"
-		}
-	  ];
+		},
+		{
+		  questions: "",
+		  answers: {
+			a: "",
+			b: "",
+			c: "",
+			d: "",
+		  },
+		  correctAnswer: ""
+		},
+		{
+		  questions : "",
+		  answers: {
+			a: "",
+			b: "",
+			c: "",
+			d: "",
+		  },
+		  correctAnswer: ""
+		},
+	];
 
-// The init function is called when the page loads
-function firstPage() {
+// The initPage() function is called when the page loads
+function initPage() {
+
+}
+
+function nextPage() {
+	var storedQuestion = JSON.parse(localStorage.getItem("question"));
+
+	if (storedQuestion !== null) {
+		question = storedQuestion;
+	}
 	
 }
+
+function storeQuestions() {
+	localStorage.setItem("question", JSON.stringify(question));
+}
+
+// Display questions on screen
+function displayQuestions() {
+	// Randomly picks questions from questions array
+		triviaQuestions.innerHTML = "";
+		questionCount.textContent = randomQuestions.length;
+		chosenQuestions = randomQuestions[Math.floor(Math.random() * randomQuestions.length)];
+		answers = 4;
+		// Uses loop to push answers to questions array
+		for (var i = 0; i < randomQuestions.length; i++) {
+			var question = question[i];
+
+			var button = document.createElement("button");
+			button.textContent = "submit";
+
+		}
+		 return this.question + " " + this.answer;		
+	}
+	displayQuestions();
 
 // The startGame function is called when the start button is clicked
 function startGame() {
@@ -59,7 +111,7 @@ function startGame() {
 	timerCount = 60;
 	// Prevents start button from being clicked when round is in progress
 	startButton.disabled = true;
-	renderQuestions();
+	displayQuestions();
 }
 
 // The winGame function is called when the win condition is met
@@ -78,23 +130,20 @@ function loseGame() {
 	setLosses();
 }
 
+var message = "Game Over"
 // Timer that counts down from 60
 function countdown() {
 	var timeLeft = 60;
   	// setInterval() method to call a function to be executed every 1000 milliseconds
 	var timeInterval = setInterval(function () {
 	  
-	  if (timeLeft > 1) {
+	  if (timeLeft > 0) {
 		
 		timer.textContent = timeLeft + ' seconds remaining';
 		
 		timeLeft--;
-	  } else if (timeLeft === 1) {
+	  } else if (timeLeft === 0) {
 		
-		timerEl.textContent = timeLeft + ' second remaining';
-		timeLeft--;
-
-	  } else if (timeLeft -= 10) {
 		timer.textContent = timeLeft + ' second remaining';
 		timeLeft--;
 
@@ -108,19 +157,19 @@ function countdown() {
 	  }
 	}, 1000);
   }
-  
-// Creates questions on screen
-function renderQuestions() {
-	// Randomly picks questions from questions array
-	chosenQuestions = questions[Math.floor(Math.random() * questions.length)];
-	numAnswers = "3";
-	// Uses loop to push answers to questions array
-	for (var i = 0; i < numAnswers; i++) {
-		
-	}
-	// Converts answer array into a string and renders it on the screen
+// Time subtracts when user gets answer wrong
+  function subractTime() {
+	var timeLeft = 60;
 	
-}
+	var timeout = setTimeout(function () {
+	
+		if (timeLeft -= 10) {
+			timer.textContent = timeLeft + 'second remaining';
+			timeLeft--;
+			clearTimeout(timeout);
+	  }
+	}, 1000);
+  }
 
 // Updates win count on screen and sets win count to client storage
 function setWins() {
@@ -160,47 +209,29 @@ function getLosses() {
 }
 
 function checkWin() {
-	// If the word equals the blankLetters array when converted to string, set win to true
-	if (chosenWord === blanksLetters.join("")) {
-		// This value is used in the timer function to test if win condition is met
+	if (chosedQuestion === answers.join()) {
 		win = true;
 	}
 }
 
-// Tests if guessed letter is in word and renders it to the screen.
+// Tests if guessed answer is in question and renders it to the screen.
 function checkAnswers(answer) {
 	var answer = false;
 	for (var i = 0; i < answer; i++) {
 		if (chosenQuestions[i] === answer) {
 			answer = true;
-		}
+		} else (chosenQuestions[i] !== answer) 
+			return wrong;
+	    }
 	}
-	if (letterInWord) {
-		for (var j = 0; j < answer; j++) {
-			if (chosenQuestions[j] === letter) {
-				answer[j] = letter;
-			}
-		}
-		trivia.textContent = blanksLetters.join(" ");
-	}
-}
 
-// Attach event listener to document to listen for key event
-document.addEventListener("keydown", function (event) {
-	// If the count is zero, exit function
-	if (timerCount === 0) {
-		return;
-	}
-	// Convert all keys to lower case
-	;
-	// Test if key pushed is letter
-});
+
 
 // Attach event listener to start button to call startGame function on click
-startButton.addEventListener("click", startGame);
+startButton.addEventListener('click', startGame);
 
-// Calls init() so that it fires when page opened
-init();
+// Calls initPage() so that it fires when page opened
+initPage();
 
 // Bonus: Add reset button
 var resetButton = document.querySelector(".reset-button");
