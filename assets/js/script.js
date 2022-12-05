@@ -3,14 +3,13 @@ var score = document.querySelector("#score");
 var timerEl = document.querySelector(".timer-countdown");
 var activeBtn = document.querySelector(".active-btn");
 var resetBtn = document.querySelector(".active-reset-button");
+var nextBtn = document.querySelector(".active-next-btn");
 
 var randomQuestions = [];
-var answers = 4;
-var score = 0;
-
+var answers = 3;
+var scoreCounter = 0;
 var timer;
 var timerCountdown;
-var message = "Game Over"
 
 
 // Array of questions & answers the user will guess
@@ -67,19 +66,14 @@ var question = [
 		},
 		displayQuestion(question)
 	];
-	
 
 // The initPage() function is called when the page loads
 function initPage() {
 	
-	var storedQuestion = JSON.parse(localStorage.getItem("question"));
-
-	if (storedQuestion !== null) {
-		question = storedQuestion;
-	}
-	getScore();
-	displayQuestion();
-	displayMessage();
+	
+	getScore(score);
+	displayQuestion(question);
+	displayMessage(message);
 }
 
 function storeQuestions() {
@@ -87,22 +81,28 @@ function storeQuestions() {
 }
 
 // Display questions on screen
-function displayQuestion(question) {
+function displayQuestion() {
 	for (var i = 0; i < randomQuestions.length; i++) {
 		randomQuestions.addEventListener('click', function () {
-			this.question('question')
+			this.question(question);
 		})
-	var questionCount = 0;
-	var questionInterval = setInterval(function () {
-		if (question[questionCount] === undefined) {
-			clearInterval(questionInterval);
-		}
-	})
-	triviaQuestions.innerHTML = "";
-		answers = 4;
-
+		triviaQuestions.innerHTML = question.join("");
+		triviaQuestions.innerHTML = question.push("");
+	};
 		var button = document.createElement("button");
 		button.textContent = "submit";	
+		
+}
+
+var nextBtn = document.querySelector(".active-next-btn");
+
+function displayNextQuestion () {
+	for (var j = 0; j < randomQuestions.length; j++) {
+		randomQuestions.addEventListener('click', function () {
+			this.question(question);
+		});
+		triviaQuestions.innerHTML = question.join("");
+		triviaQuestions.innerHTML = question.push("");
 	}
 }
 
@@ -116,8 +116,8 @@ function startGame() {
 	startCountdown();
 }
 
-// The winGame function is called when the win condition is met
-function winGame() {
+// The finishGame function is called when the finish condition is met
+function finishGame() {
 	triviaQuestions.textContent = "Your Score!!!";	
 	activeBtn.disabled = false;	
 }
@@ -132,7 +132,7 @@ var message = "Game Over";
 
 function displayMessage(message) {
 	var message = "";
-	message.textContent = "Game Over";
+	message.textContent = "GAME OVER";
 	return message;
 }
 
@@ -183,9 +183,6 @@ function startCountdown() {
 	}, 1000);
    }
   }
-function displayScore () {
-
-}
 
 // Updates score count on screen and sets score count to client storage
 function setScore() {
@@ -227,7 +224,7 @@ activeBtn.addEventListener('click', startGame);
 // Calls initPage() so that it fires when page opened
 initPage();
 
-
+//Reset button to reset the time
 var resetBtn = document.querySelector(".active-reset-button");
 
 function resetGame() {
