@@ -8,8 +8,9 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    line-height: 4rem;
     justify-content: flex-start;
-    background: linear-gradient(0deg, rgba(19,41,61,1) 0%, rgba(237,245,249,1) 63%);
+    background:  rgba(237,245,249,1) 63%;
   }
   
   .reset-button {
@@ -17,12 +18,6 @@
     height: 30px;
     line-height: 8px;
     margin-top: 20px;
-  }
-  
-  .win-loss-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
   }
   
   button {
@@ -44,11 +39,12 @@
   
   header {
     font-size: 34px;
-    padding: 40px;
+    padding: 8px;
     text-align: center;
     background: #13293d;
     color: #fff;
-    border-bottom:30px #879274;
+    border-bottom:7px #879274;
+    
   }
   
   main {
@@ -57,15 +53,23 @@
     justify-content: space-around;
   }
   
+  #trivia .card p span {
+    bottom: 200px;
+    font-size: 15px;
+  }
+
   section {
     flex: 0 auto;
     padding: 8px;
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     background-color: white;
     border-radius: 8px;
+    line-height: 10rem;
+    width: rem;
   }
   
-  .trivia {
+  #trivia {
     width: 55vw;
     height: 400px;
   }
@@ -75,17 +79,18 @@
     height: 400px;
   }
   
-  .card {
-    background: radial-gradient(circle, rgba(240,230,140,1) 0%, rgba(187,124,33,0.604079131652661) 100%);
+  #trivia .card {
+    background: silver;
     border: 1px solid #eceff1;
     border-radius: 8px;
     box-shadow: rgba(60, 64, 67, 2) 0 1px 2px 0,
       rgba(60, 64, 67, 0.15) 0 2px 4px 3px;
     margin: auto;
-    padding: 20px;
+    padding: 10px;
+    left: 10rem;
   }
   
-  .trivia-question {
+  .trivia-questions {
     line-height: 360px;
   }
   
@@ -111,7 +116,7 @@
       flex-direction: column;
     }
   
-    .word-guess,
+    #trivia,
     .results {
       width: 90vw;
     }
@@ -128,7 +133,7 @@
       font-size: 2em;
     }
   
-    .reset-button {
+    .active-reset-button {
       font-size: 12px;
       width: 20ox;
       

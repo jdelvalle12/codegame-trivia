@@ -1,17 +1,16 @@
 var triviaQuestions = document.querySelector(".trivia-questions");
-var questionCount = document.querySelector("#question-count");
-var win = document.querySelector(".win");
-var lose = document.querySelector(".lose");
-var timer = document.querySelector(".timer-countdown");
-var startButton = document.querySelector(".start-button");
+var score = document.querySelector("#score");
+var timerEl = document.querySelector(".timer-countdown");
+var activeBtn = document.querySelector(".active-btn");
+var resetBtn = document.querySelector(".active-reset-button");
 
-var randomQuestions = "";
+var randomQuestions = [];
 var answers = 4;
-var winCounter = 0;
-var loseCounter = 0;
-var wins = false;
+var score = 0;
+
 var timer;
 var timerCountdown;
+var message = "Game Over"
 
 
 // Array of questions & answers the user will guess
@@ -22,64 +21,65 @@ var question = [
 			a: "Douglas Crockford",
 			b: "Sheryl Sandberg",
 			c: "Brendan Eich",
-			d: "",
+			d: "Jack Dorsey",
 		  },
 		  correctAnswer: "c",
 		},
 		{
-		  question: "Which one of these is a JavaScript package manager?",
+		  question: "Which one of these is the programming language to make webpage interactive?",
 		  answers: {
 			a: "Node.js",
 			b: "TypeScript",
-			c: "npm",
-			d: "",
+			c: "JavaScript",
+			d: "CSS",
 		  },
 		  correctAnswer: "c"
 		},
 		{
-		  question: "Which tool can you use to ensure code quality?",
+		  question: "Which programming language is used to style a webpage?",
 		  answers: {
-			a: "Angular",
+			a: "style",
 			b: "jQuery",
-			c: "RequireJS",
-			d: "ESLint",
+			c: "HTML",
+			d: "CSS",
 		  },
 		  correctAnswer: "d"
 		},
 		{
-		  questions: "",
+		  questions: "What is an array used for?",
 		  answers: {
-			a: "",
-			b: "",
-			c: "",
-			d: "",
+			a: "To start a timer",
+			b: "Store multiple values",
+			c: "Used as a Font-family",
+			d: "To color",
 		  },
-		  correctAnswer: ""
+		  correctAnswer: "b"
 		},
 		{
-		  questions : "",
+		  questions : "What does HTML stand for?",
 		  answers: {
-			a: "",
-			b: "",
-			c: "",
-			d: "",
+			a: "Hyper Text Markup Langauge",
+			b: "Hyper Test Markup Language",
+			c: "Hoop Text Markdown Language",
+			d: "Hyper Test Markdown Language",
 		  },
-		  correctAnswer: ""
+		  correctAnswer: "a"
 		},
+		displayQuestion(question)
 	];
+	
 
 // The initPage() function is called when the page loads
 function initPage() {
-
-}
-
-function nextPage() {
+	
 	var storedQuestion = JSON.parse(localStorage.getItem("question"));
 
 	if (storedQuestion !== null) {
 		question = storedQuestion;
 	}
-	
+	getScore();
+	displayQuestion();
+	displayMessage();
 }
 
 function storeQuestions() {
@@ -87,162 +87,162 @@ function storeQuestions() {
 }
 
 // Display questions on screen
-function displayQuestions() {
-	// Randomly picks questions from questions array
-		triviaQuestions.innerHTML = "";
-		questionCount.textContent = randomQuestions.length;
-		chosenQuestions = randomQuestions[Math.floor(Math.random() * randomQuestions.length)];
-		answers = 4;
-		// Uses loop to push answers to questions array
-		for (var i = 0; i < randomQuestions.length; i++) {
-			var question = question[i];
-
-			var button = document.createElement("button");
-			button.textContent = "submit";
-
+function displayQuestion(question) {
+	for (var i = 0; i < randomQuestions.length; i++) {
+		randomQuestions.addEventListener('click', function () {
+			this.question('question')
+		})
+	var questionCount = 0;
+	var questionInterval = setInterval(function () {
+		if (question[questionCount] === undefined) {
+			clearInterval(questionInterval);
 		}
-		 return this.question + " " + this.answer;		
+	})
+	triviaQuestions.innerHTML = "";
+		answers = 4;
+
+		var button = document.createElement("button");
+		button.textContent = "submit";	
 	}
-	displayQuestions();
+}
 
 // The startGame function is called when the start button is clicked
 function startGame() {
-	wins = false;
+	
 	timerCount = 60;
 	// Prevents start button from being clicked when round is in progress
-	startButton.disabled = true;
-	displayQuestions();
+	activeBtn.disabled = true;
+	displayQuestion();
+	startCountdown();
 }
 
 // The winGame function is called when the win condition is met
 function winGame() {
-	triviaQuestions.textContent = "YOU WON!!!🏆 ";
-	winCounter++;
-	startButton.disabled = false;
-	setWins();
+	triviaQuestions.textContent = "Your Score!!!";	
+	activeBtn.disabled = false;	
 }
 
-// The loseGame function is called when timer reaches 0
-function loseGame() {
+// The endGame function is called when timer reaches 0
+function endGame() {
 	triviaQuestions.textContent = "GAME OVER";
-	loseCounter++;
-	startButton.disabled = false;
-	setLosses();
+	activeBtn.disabled = false;
 }
 
-var message = "Game Over"
+var message = "Game Over";
+
+function displayMessage(message) {
+	var message = "";
+	message.textContent = "Game Over";
+	return message;
+}
+
 // Timer that counts down from 60
-function countdown() {
+function startCountdown() {
 	var timeLeft = 60;
   	// setInterval() method to call a function to be executed every 1000 milliseconds
 	var timeInterval = setInterval(function () {
 	  
 	  if (timeLeft > 0) {
 		
-		timer.textContent = timeLeft + ' seconds remaining';
+		timerEl.textContent = timeLeft + " " + ' seconds remaining';
 		
-		timeLeft--;
-	  } else if (timeLeft === 0) {
-		
-		timer.textContent = timeLeft + ' second remaining';
 		timeLeft--;
 
+		if(timerCount > 0 ) {
+			clearInterval(timer);
+		}
+	  } else if (timeLeft === 0) {
+		
+		timerEl.textContent = timeLeft + " " + ' seconds remaining';
+		timeLeft--;
+		
+		if(timerCount > 0 ) {
+			clearInterval(timer);
+		}
 	  } else {
-		// Once `timeLeft` gets to 0, set `timer` to an empty string
-		timer.textContent = '';
+		// Once `timeLeft` gets to 0, set `timerEl` to an empty string
+		timerEl.textContent = '';
 		// Use `clearInterval()` to stop the timer
 		clearInterval(timeInterval);
 		// Call the `displayMessage()` function
-		displayMessage();
-	  }
-	}, 1000);
-  }
-// Time subtracts when user gets answer wrong
-  function subractTime() {
-	var timeLeft = 60;
-	
-	var timeout = setTimeout(function () {
-	
-		if (timeLeft -= 10) {
-			timer.textContent = timeLeft + 'second remaining';
-			timeLeft--;
-			clearTimeout(timeout);
+		displayMessage(message);
 	  }
 	}, 1000);
   }
 
-// Updates win count on screen and sets win count to client storage
-function setWins() {
-	win.textContent = winCounter;
-	localStorage.setItem("winCount", winCounter);
+  //Subtracts time by 10 seconds if user gets wrong answer 
+  function subtractTime () {
+	var timeLeft = 60;
+
+   if(randomQuestions!== answers) {
+
+	var timeInterval = setInterval(function () {
+	(timeLeft -= 10) ;
+	timerEl.textContent = timeLeft + " " + 'seconds remaining';
+	timeLeft--;
+	}, 1000);
+   }
+  }
+function displayScore () {
+
 }
 
-// Updates lose count on screen and sets lose count to client storage
-function setLosses() {
-	lose.textContent = loseCounter;
-	localStorage.setItem("loseCount", loseCounter);
+// Updates score count on screen and sets score count to client storage
+function setScore() {
+	score.textContent = scoreCounter;
+	localStorage.setItem("score", scoreCounter);
 }
 
 // These functions are used by init
-function getWins() {
+function getScore() {
 	// Get stored value from client storage, if it exists
-	var storedWins = localStorage.getItem("winCount");
+	var storedScore = localStorage.getItem("score");
 	// If stored value doesn't exist, set counter to 0
-	if (storedWins === null) {
-		winCounter = 0;
+	if (storedScore === null) {
+		scoreCounter = 0;
 	} else {
-		// If a value is retrieved from client storage set the winCounter to that value
-		winCounter = storedWins;
+		// If a value is retrieved from client storage set the scoreCounter to that value
+		scoreCounter = storedScore;
 	}
-	//Render win count to page
-	win.textContent = winCounter;
+	//Render score count to page
+	score.textContent = scoreCounter;
 }
 
-function getLosses() {
-	var storedLosses = localStorage.getItem("loseCount");
-	if (storedLosses === null) {
-		loseCounter = 0;
-	} else {
-		loseCounter = storedLosses;
-	}
-	lose.textContent = loseCounter;
-}
-
-function checkWin() {
-	if (chosedQuestion === answers.join()) {
-		win = true;
-	}
-}
-
-// Tests if guessed answer is in question and renders it to the screen.
+// Tests if guessed answer is wrong in question and renders it to the screen.
 function checkAnswers(answer) {
 	var answer = false;
 	for (var i = 0; i < answer; i++) {
-		if (chosenQuestions[i] === answer) {
+		if (randomQuestions[i] === answer) {
 			answer = true;
-		} else (chosenQuestions[i] !== answer) 
-			return wrong;
+		} else (randomQuestions[i] !== answer) 
+			return false;
 	    }
-	}
+}
 
 
 
 // Attach event listener to start button to call startGame function on click
-startButton.addEventListener('click', startGame);
+activeBtn.addEventListener('click', startGame);
 
 // Calls initPage() so that it fires when page opened
 initPage();
 
-// Bonus: Add reset button
-var resetButton = document.querySelector(".reset-button");
+
+var resetBtn = document.querySelector(".active-reset-button");
 
 function resetGame() {
-	// Resets win and loss counts
-	winCounter = 0;
-	loseCounter = 0;
-	// Renders win and loss counts and sets them into client storage
-	setWins();
-	setLosses();
+	var timeLeft = 60;
+	
+	var timeout = setTimeout(function () {
+	
+		if (timeLeft === 60) {
+			timerEl.textContent = timeLeft + " " + 'seconds remaining';
+			timeLeft--;
+			clearTimeout(timeout) ;
+				return;
+			}
+	  },
+	 1000);
 }
 // Attaches event listener to button
-resetButton.addEventListener("click", resetGame);
+resetBtn.addEventListener("click", resetGame);
