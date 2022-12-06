@@ -18,4 +18,4 @@ Deploy the application by using commands 'git add', 'git commit', & 'git push', 
 
 ## Known Bugs
 
-Added HTML elements, Adding additional functions and variables onto JavaScript along with statements, Added on comments onto JavaScript code.
+Added HTML elements, Adding functions and variables onto JavaScript along with statements, Added on comments onto JavaScript code.
