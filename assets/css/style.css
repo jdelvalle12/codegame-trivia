@@ -35,11 +35,13 @@
     transition-property: background-color;
     transition-timing-function: linear;
     margin-top: 0.6em;
+    display: inline-flex;
   }
   
   header {
     font-size: 34px;
-    padding: 8px;
+    padding: 4px;
+    height: 16rem;
     text-align: center;
     background: #0573da;
     color: #fff;
@@ -88,6 +90,9 @@
     margin: auto;
     padding: 10px;
     left: 10rem;
+    height: 425px;
+    width: 50rem;
+    justify-content: center;
   }
   
   .trivia-questions {

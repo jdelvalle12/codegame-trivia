@@ -6,14 +6,14 @@ var resetBtn = document.querySelector(".active-reset-button");
 var nextBtn = document.querySelector(".active-next-btn");
 
 var randomQuestions = [];
-var answers = 3;
+var answers = [];
 var scoreCounter = 0;
 var timer;
 var timerCountdown;
 
 
 // Array of questions & answers the user will guess
-var question = [
+var questions = [
 		{
 		  question: "Who invented JavaScript?",
 		  answers: {
@@ -64,16 +64,15 @@ var question = [
 		  },
 		  correctAnswer: "a"
 		},
-		displayQuestion(question)
+		displayQuestions()
 	];
 
 // The initPage() function is called when the page loads
 function initPage() {
 	
-	
-	getScore(score);
-	displayQuestion(question);
-	displayMessage(message);
+	getScore();
+	displayQuestions();
+	displayMessage();
 }
 
 function storeQuestions() {
@@ -81,28 +80,27 @@ function storeQuestions() {
 }
 
 // Display questions on screen
-function displayQuestion() {
+function displayQuestions(question) {
+	var question = [];
+	var answers = [];
 	for (var i = 0; i < randomQuestions.length; i++) {
 		randomQuestions.addEventListener('click', function () {
-			this.question(question);
-		})
-		triviaQuestions.innerHTML = question.join("");
-		triviaQuestions.innerHTML = question.push("");
+			answers = [];
+		});
 	};
-		var button = document.createElement("button");
-		button.textContent = "submit";	
+		return question;
 		
 }
+console.log(questions);
 
 var nextBtn = document.querySelector(".active-next-btn");
 
-function displayNextQuestion () {
+function displayNextTriviaQuestions () {
 	for (var j = 0; j < randomQuestions.length; j++) {
 		randomQuestions.addEventListener('click', function () {
-			this.question(question);
+			this.questions(questions);
 		});
-		triviaQuestions.innerHTML = question.join("");
-		triviaQuestions.innerHTML = question.push("");
+		
 	}
 }
 
@@ -112,7 +110,7 @@ function startGame() {
 	timerCount = 60;
 	// Prevents start button from being clicked when round is in progress
 	activeBtn.disabled = true;
-	displayQuestion();
+	displayQuestions();
 	startCountdown();
 }
 
@@ -135,7 +133,7 @@ function displayMessage(message) {
 	message.textContent = "GAME OVER";
 	return message;
 }
-
+//console.log(message);
 // Timer that counts down from 60
 function startCountdown() {
 	var timeLeft = 60;
@@ -215,7 +213,6 @@ function checkAnswers(answer) {
 			return false;
 	    }
 }
-
 
 
 // Attach event listener to start button to call startGame function on click
